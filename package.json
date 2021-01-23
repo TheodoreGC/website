@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/TheodoreGC/website/issues"
   },
-  "homepage": "https://github.com/TheodoreGC/website#readme",
+  "homepage": "https://theodoregc.github.io/website",
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
     "snowpack": "^3.0.11"
