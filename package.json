@@ -2,8 +2,10 @@
   "name": "website",
   "version": "1.0.0",
   "description": "Personal website",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +19,8 @@
   },
   "homepage": "https://github.com/TheodoreGC/website#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "snowpack": "^3.0.11"
   },
   "config": {
     "commitizen": {
