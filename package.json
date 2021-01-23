@@ -1,0 +1,19 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "Personal website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheodoreGC/website.git"
+  },
+  "author": "Theodore Garson <theodore.corbeaux@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheodoreGC/website/issues"
+  },
+  "homepage": "https://github.com/TheodoreGC/website#readme"
+}
