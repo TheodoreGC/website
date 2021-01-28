@@ -3,11 +3,19 @@
 
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
+  exclude: [
+    '**/plugins/*',
+    '**/.github/**/*',
+    '**/.gitignore',
+    '**/package*',
+    '**/README*',
+    '**/snowpack.config.js'
+  ],
   mount: {
     /* ... */
   },
   plugins: [
-    /* ... */
+    './plugins/markdown-parser.js'
   ],
   packageOptions: {
     /* ... */

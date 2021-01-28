@@ -20,6 +20,7 @@
   "homepage": "https://theodoregc.github.io/website",
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
+    "markdown-wasm": "^1.1.2",
     "snowpack": "^3.0.11"
   },
   "config": {
