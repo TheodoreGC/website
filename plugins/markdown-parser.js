@@ -26,10 +26,12 @@ module.exports = function (snowpackConfig, pluginOptions = {}) {
             <body>
               <nav class="website-nav">
                 <a href="./">Home</a> |
-                <a class="disabled" href="./blog/">Blog</a>
+                <a class="website-link--disabled" href="./blog/">Blog</a>
               </nav>
-              <div class="main-content">${code}</div>
-              <footer>&copy; Copyright 2021 Theodore Garson</footer>
+              <div class="main-content">
+                <article>${code}</article>
+              </div>
+              <footer class="website-footer">&copy; Copyright 2021 Theodore Garson</footer>
               <script type="module" src="index.js"></script>
             </body>
           </html>
