@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "github-syntax-dark/lib/github-dark.css": "./github-syntax-dark/lib/github-dark.css",
+    "github-syntax-light/lib/github-light.css": "./github-syntax-light/lib/github-light.css",
+    "svelte": "./svelte.js",
+    "svelte-awesome": "./svelte-awesome.js",
+    "svelte-awesome/icons": "./svelte-awesome/icons.js",
+    "svelte-navigator": "./svelte-navigator.js",
+    "svelte/internal": "./svelte/internal.js"
+  }
+}

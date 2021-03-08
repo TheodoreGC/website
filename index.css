@@ -1,12 +1,20 @@
+/* TODO: Investigate the issue with using @import and media query with the theme: https://blog.jim-nielsen.com/2019/conditional-syntax-highlighting-in-dark-mode-with-css-imports/ */
+/* @import "./_snowpack/pkg/github-syntax-light/lib/github-light.css"; */
+@import "./_snowpack/pkg/github-syntax-dark/lib/github-dark.css";
+
 :root {
   --main-bg-color: white;
   --main-color: #35495e;
+  --secondary-color: #e6e6e6;
+  --tertiary-color: #6a737d;
   --highlight-color: #25ae90;
 }
 
 :root[theme='dark'] {
   --main-bg-color: #35495e;
   --main-color: white;
+  --secondary-color: #1f2b39;
+  --tertiary-color: #A6ACB3;
   --highlight-color: #66c6b1;
 }
 
@@ -52,32 +60,27 @@ a:hover {
   text-decoration: underline;
 }
 
-.website-link--disabled {
-  color: currentColor;
-  cursor: not-allowed;
-  opacity: 0.5;
+.website-navigation-link {
   text-decoration: none;
-  pointer-events: none;
+  color: inherit;
 }
 
-nav.website-nav {
-  margin-top: 2rem;
+.website-navigation-link:hover,
+.website-navigation-link[aria-current="page"] {
+  color: var(--highlight-color);
 }
 
-footer.website-footer {
-  flex-shrink: 0;
-  align-self: center;
-  font-size: 0.8rem;
-  margin: 2rem 0;
-}
-
-/* HOMEPAGE */
-.main-introduction {
-  text-align: center;
-}
-
-/* PAGES */
+/* BLOG */
 article {
   display: flex;
   flex-direction: column;
 }
+
+.octicon.octicon-link {
+  display: none;
+}
+
+/* hr {
+  width: 4rem;
+  border: 1px solid var(--highlight-color);
+} */
