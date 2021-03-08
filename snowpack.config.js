@@ -8,7 +8,10 @@ module.exports = {
     src: '/dist'
   },
   plugins: [
-    '@snowpack/plugin-svelte'
+    '@snowpack/plugin-svelte',
+    [
+      '@snowpack/plugin-webpack'
+    ]
   ],
   routes: [
     /* Enable an SPA Fallback in development: */
