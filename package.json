@@ -20,6 +20,7 @@
   "homepage": "https://theodoregc.github.io/website",
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.5.2",
+    "@snowpack/plugin-webpack": "^2.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "snowpack": "^3.0.11"
   },
