@@ -19,13 +19,21 @@
   },
   "homepage": "https://theodoregc.github.io/website",
   "devDependencies": {
+    "@snowpack/plugin-svelte": "^3.5.2",
     "cz-conventional-changelog": "^3.3.0",
-    "markdown-wasm": "^1.1.2",
     "snowpack": "^3.0.11"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@sveltejs/svelte-virtual-list": "^3.0.1",
+    "github-syntax-dark": "^0.5.0",
+    "github-syntax-light": "^0.5.0",
+    "svelte": "^3.32.3",
+    "svelte-awesome": "^2.3.0",
+    "svelte-navigator": "^3.1.5"
   }
 }
