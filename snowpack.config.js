@@ -3,19 +3,16 @@
 
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
-  exclude: [
-    '**/plugins/*',
-    '**/.github/**/*',
-    '**/.gitignore',
-    '**/package*',
-    '**/README*',
-    '**/snowpack.config.js'
-  ],
   mount: {
-    /* ... */
+    public: '/',
+    src: '/dist'
   },
   plugins: [
-    './plugins/markdown-parser.js'
+    '@snowpack/plugin-svelte'
+  ],
+  routes: [
+    /* Enable an SPA Fallback in development: */
+    // {"match": "routes", "src": ".*", "dest": "/index.html"},
   ],
   packageOptions: {
     /* ... */
