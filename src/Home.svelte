@@ -2,6 +2,10 @@
   .main-introduction {
     text-align: center;
   }
+
+  .website-headline:focus {
+    outline: none;
+  }
 </style>
 
 <div class="main-content">

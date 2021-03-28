@@ -1,29 +1,20 @@
 <script>
-  import { onMount } from 'svelte';
+  import { useFocus } from 'svelte-navigator';
 
   import { BlogService } from './services/blog-service';
 
   import List from './widgets/List.svelte';
   import ListItem from './widgets/ListItem.svelte';
 
+  const registerFocus = useFocus();
   const blogService = new BlogService();
 
-  let items = [];
-  let totalCount = 0;
   let searchTerm = '';
-
-  $: filteredList = items.filter(item => item.name.indexOf(searchTerm) !== -1);
 
   let start;
   let end;
 
-  onMount(async () => {
-    blogService.getAllPosts()
-      .then(({ posts, count }) => {
-        items = posts;
-        totalCount = count;
-      });
-  });
+  const blogPostRequest = blogService.getAllPosts();
 </script>
 
 <style>
@@ -50,6 +41,17 @@
   ::-webkit-input-placeholder {
     color: var(--main-color);
   }
+
+  .blog-list-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
 </style>
 
 <h1>Posts</h1>
@@ -57,11 +59,15 @@
 <input bind:value={searchTerm} placeholder='Search' class='blog-list-search-box' />
 
 <div class='container'>
-  <List items={filteredList} bind:start bind:end let:item>
-    <ListItem {...item}/>
-  </List>
-  <div class="blog-list-information">
-    <p>showing items {start}-{end}</p>
-    <p>Total posts: {totalCount}</p>
-  </div>
+  {#await blogPostRequest}
+    <h1 class="blog-list-hidden" use:registerFocus>The blog posts are being loaded...</h1>
+  {:then { posts, count }}
+    <List items={posts.filter(post => post.name.indexOf(searchTerm) !== -1)} bind:start bind:end let:item>
+      <ListItem {...item}/>
+    </List>
+    <div class="blog-list-information">
+      <p>showing items {start}-{end}</p>
+      <p>Total posts: {count}</p>
+    </div>
+  {/await}
 </div>
