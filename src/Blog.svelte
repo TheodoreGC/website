@@ -62,7 +62,7 @@
   {#await blogPostRequest}
     <h1 class="blog-list-hidden" use:registerFocus>The blog posts are being loaded...</h1>
   {:then { posts, count }}
-    <List items={posts.filter(post => post.name.indexOf(searchTerm) !== -1)} bind:start bind:end let:item>
+    <List items={posts.filter(post => post.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)} bind:start bind:end let:item>
       <ListItem {...item}/>
     </List>
     <div class="blog-list-information">
