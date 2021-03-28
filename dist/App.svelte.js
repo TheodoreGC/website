@@ -96,7 +96,7 @@ function create_default_slot_3(ctx) {
 
 	link0 = new Link({
 			props: {
-				to: "/",
+				to: "",
 				class: "website-navigation-link",
 				$$slots: { default: [create_default_slot_6] },
 				$$scope: { ctx }
@@ -190,7 +190,7 @@ function create_default_slot_3(ctx) {
 	};
 }
 
-// (42:4) <Route path='/blog/posts/:id' let:params>
+// (42:4) <Route path='blog/posts/:id' let:params>
 function create_default_slot_2(ctx) {
 	let post;
 	let current;
@@ -236,19 +236,17 @@ function create_default_slot_1(ctx) {
 	let t3;
 	let footer;
 	let current;
-	route0 = new Route({ props: { path: "/", component: Home } });
+	route0 = new Route({ props: { path: "", component: Home } });
 
 	route1 = new Route({
-			props: { path: "/about", component: About }
+			props: { path: "about", component: About }
 		});
 
-	route2 = new Route({
-			props: { path: "/blog", component: Blog }
-		});
+	route2 = new Route({ props: { path: "blog", component: Blog } });
 
 	route3 = new Route({
 			props: {
-				path: "/blog/posts/:id",
+				path: "blog/posts/:id",
 				$$slots: {
 					default: [
 						create_default_slot_2,
@@ -326,7 +324,7 @@ function create_default_slot_1(ctx) {
 	};
 }
 
-// (28:0) <Router>
+// (28:0) <Router basepath='/website'>
 function create_default_slot(ctx) {
 	let navigation;
 	let t;
@@ -400,6 +398,7 @@ function create_fragment(ctx) {
 
 	router = new Router({
 			props: {
+				basepath: "/website",
 				$$slots: { default: [create_default_slot] },
 				$$scope: { ctx }
 			}

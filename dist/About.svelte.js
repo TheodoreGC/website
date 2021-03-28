@@ -3,23 +3,44 @@ import './About.svelte.css.proxy.js';
 import {
 	HtmlTag,
 	SvelteComponent,
+	action_destroyer,
 	attr,
 	detach,
 	element,
 	empty,
+	handle_promise,
 	init,
 	insert,
 	noop,
 	safe_not_equal,
-	set_data,
 	text
 } from "../_snowpack/pkg/svelte/internal.js";
 
-import { onMount } from "../_snowpack/pkg/svelte.js";
+import { useFocus } from "../_snowpack/pkg/svelte-navigator.js";
 import { PageService } from "./services/page-service.js";
 
-function create_else_block(ctx) {
+function create_catch_block(ctx) {
+	let t_value = /*error*/ ctx[4] + "";
+	let t;
+
+	return {
+		c() {
+			t = text(t_value);
+		},
+		m(target, anchor) {
+			insert(target, t, anchor);
+		},
+		p: noop,
+		d(detaching) {
+			if (detaching) detach(t);
+		}
+	};
+}
+
+// (32:2) {:then html}
+function create_then_block(ctx) {
 	let html_tag;
+	let raw_value = /*html*/ ctx[3] + "";
 	let html_anchor;
 
 	return {
@@ -28,12 +49,10 @@ function create_else_block(ctx) {
 			html_tag = new HtmlTag(html_anchor);
 		},
 		m(target, anchor) {
-			html_tag.m(/*html*/ ctx[0], target, anchor);
+			html_tag.m(raw_value, target, anchor);
 			insert(target, html_anchor, anchor);
 		},
-		p(ctx, dirty) {
-			if (dirty & /*html*/ 1) html_tag.p(/*html*/ ctx[0]);
-		},
+		p: noop,
 		d(detaching) {
 			if (detaching) detach(html_anchor);
 			if (detaching) html_tag.d();
@@ -41,83 +60,91 @@ function create_else_block(ctx) {
 	};
 }
 
-// (29:2) {#if error !== null}
-function create_if_block(ctx) {
-	let t;
+// (30:27)      <h1 class="about-page-hidden" use:registerFocus>The about page is being loaded...</h1>   {:then html}
+function create_pending_block(ctx) {
+	let h1;
+	let registerFocus_action;
+	let mounted;
+	let dispose;
 
 	return {
 		c() {
-			t = text(/*error*/ ctx[1]);
+			h1 = element("h1");
+			h1.textContent = "The about page is being loaded...";
+			attr(h1, "class", "about-page-hidden svelte-14uiwey");
 		},
 		m(target, anchor) {
-			insert(target, t, anchor);
+			insert(target, h1, anchor);
+
+			if (!mounted) {
+				dispose = action_destroyer(registerFocus_action = /*registerFocus*/ ctx[0].call(null, h1));
+				mounted = true;
+			}
 		},
-		p(ctx, dirty) {
-			if (dirty & /*error*/ 2) set_data(t, /*error*/ ctx[1]);
-		},
+		p: noop,
 		d(detaching) {
-			if (detaching) detach(t);
+			if (detaching) detach(h1);
+			mounted = false;
+			dispose();
 		}
 	};
 }
 
 function create_fragment(ctx) {
 	let div;
+	let promise;
 
-	function select_block_type(ctx, dirty) {
-		if (/*error*/ ctx[1] !== null) return create_if_block;
-		return create_else_block;
-	}
+	let info = {
+		ctx,
+		current: null,
+		token: null,
+		hasCatch: true,
+		pending: create_pending_block,
+		then: create_then_block,
+		catch: create_catch_block,
+		value: 3,
+		error: 4
+	};
 
-	let current_block_type = select_block_type(ctx, -1);
-	let if_block = current_block_type(ctx);
+	handle_promise(promise = /*aboutPageRequest*/ ctx[1], info);
 
 	return {
 		c() {
 			div = element("div");
-			if_block.c();
-			attr(div, "class", "about-page-wrapper svelte-vi9raa");
+			info.block.c();
+			attr(div, "class", "about-page-wrapper svelte-14uiwey");
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
-			if_block.m(div, null);
+			info.block.m(div, info.anchor = null);
+			info.mount = () => div;
+			info.anchor = null;
 		},
-		p(ctx, [dirty]) {
-			if (current_block_type === (current_block_type = select_block_type(ctx, dirty)) && if_block) {
-				if_block.p(ctx, dirty);
-			} else {
-				if_block.d(1);
-				if_block = current_block_type(ctx);
+		p(new_ctx, [dirty]) {
+			ctx = new_ctx;
 
-				if (if_block) {
-					if_block.c();
-					if_block.m(div, null);
-				}
+			{
+				const child_ctx = ctx.slice();
+				child_ctx[3] = child_ctx[4] = info.resolved;
+				info.block.p(child_ctx, dirty);
 			}
 		},
 		i: noop,
 		o: noop,
 		d(detaching) {
 			if (detaching) detach(div);
-			if_block.d();
+			info.block.d();
+			info.token = null;
+			info = null;
 		}
 	};
 }
 
-function instance($$self, $$props, $$invalidate) {
+function instance($$self) {
+	const registerFocus = useFocus();
 	const pageService = new PageService();
-	let html = null;
-	let error = null;
-
-	onMount(async () => {
-		pageService.getAboutPageData().then(res => {
-			$$invalidate(0, html = res);
-		}).catch(err => {
-			$$invalidate(1, error = err);
-		});
-	});
-
-	return [html, error];
+	const aboutPageRequest = pageService.getAboutPageData();
+	return [registerFocus, aboutPageRequest];
 }
 
 class About extends SvelteComponent {

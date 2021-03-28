@@ -18,7 +18,7 @@ function create_fragment(ctx) {
 		c() {
 			div1 = element("div");
 
-			div1.innerHTML = `<div class="main-introduction svelte-8ys0la"><header class="website-header"><h1 class="website-headline">THEODORE GARSON</h1> 
+			div1.innerHTML = `<div class="main-introduction svelte-xzik0b"><header class="website-header"><h1 class="website-headline svelte-xzik0b">THEODORE GARSON</h1> 
       <h2>Principal Software Engineer</h2></header> 
     <section class="website-section"><p>Welcome to my personal website.</p> 
       <p>You will find out more about who I am and how to contact me.</p> 

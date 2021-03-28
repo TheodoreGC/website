@@ -5,6 +5,9 @@ function assign(tar, src) {
         tar[k] = src[k];
     return tar;
 }
+function is_promise(value) {
+    return value && typeof value === 'object' && typeof value.then === 'function';
+}
 function run(fn) {
     return fn();
 }
@@ -417,6 +420,77 @@ function transition_out(block, local, detach, callback) {
         block.o(local);
     }
 }
+
+function handle_promise(promise, info) {
+    const token = info.token = {};
+    function update(type, index, key, value) {
+        if (info.token !== token)
+            return;
+        info.resolved = value;
+        let child_ctx = info.ctx;
+        if (key !== undefined) {
+            child_ctx = child_ctx.slice();
+            child_ctx[key] = value;
+        }
+        const block = type && (info.current = type)(child_ctx);
+        let needs_flush = false;
+        if (info.block) {
+            if (info.blocks) {
+                info.blocks.forEach((block, i) => {
+                    if (i !== index && block) {
+                        group_outros();
+                        transition_out(block, 1, 1, () => {
+                            if (info.blocks[i] === block) {
+                                info.blocks[i] = null;
+                            }
+                        });
+                        check_outros();
+                    }
+                });
+            }
+            else {
+                info.block.d(1);
+            }
+            block.c();
+            transition_in(block, 1);
+            block.m(info.mount(), info.anchor);
+            needs_flush = true;
+        }
+        info.block = block;
+        if (info.blocks)
+            info.blocks[index] = block;
+        if (needs_flush) {
+            flush();
+        }
+    }
+    if (is_promise(promise)) {
+        const current_component = get_current_component();
+        promise.then(value => {
+            set_current_component(current_component);
+            update(info.then, 1, info.value, value);
+            set_current_component(null);
+        }, error => {
+            set_current_component(current_component);
+            update(info.catch, 2, info.error, error);
+            set_current_component(null);
+            if (!info.hasCatch) {
+                throw error;
+            }
+        });
+        // if we previously had a then/catch block, destroy it
+        if (info.current !== info.pending) {
+            update(info.pending, 0);
+            return true;
+        }
+    }
+    else {
+        if (info.current !== info.then) {
+            update(info.then, 1, info.value, promise);
+            return true;
+        }
+        info.resolved = promise;
+    }
+}
 function outro_and_destroy_block(block, lookup) {
     transition_out(block, 1, 1, () => {
         lookup.delete(block.key);
@@ -666,4 +740,4 @@ class SvelteComponent {
     }
 }
 
-export { set_custom_element_data as $, destroy_each as A, add_flush_callback as B, binding_callbacks as C, bind as D, subscribe as E, run_all as F, is_function as G, get_store_value as H, text as I, set_data as J, set_style as K, getContext as L, component_subscribe as M, setContext as N, compute_rest_props as O, onDestroy as P, exclude_internal_props as Q, get_spread_object as R, SvelteComponent as S, set_attributes as T, listen as U, createEventDispatcher as V, HtmlTag as W, set_input_value as X, add_render_callback as Y, add_resize_listener as Z, outro_and_destroy_block as _, assign as a, update_keyed_each as a0, action_destroyer as a1, svg_element as b, set_svg_attributes as c, insert as d, detach as e, element as f, get_spread_update as g, append as h, init as i, create_slot as j, attr as k, toggle_class as l, transition_in as m, noop as n, onMount as o, transition_out as p, create_component as q, mount_component as r, safe_not_equal as s, tick as t, update_slot as u, destroy_component as v, empty as w, space as x, group_outros as y, check_outros as z };
+export { add_resize_listener as $, destroy_each as A, add_flush_callback as B, binding_callbacks as C, bind as D, subscribe as E, run_all as F, is_function as G, get_store_value as H, text as I, set_data as J, set_style as K, getContext as L, component_subscribe as M, setContext as N, onDestroy as O, compute_rest_props as P, exclude_internal_props as Q, get_spread_object as R, SvelteComponent as S, set_attributes as T, listen as U, createEventDispatcher as V, HtmlTag as W, action_destroyer as X, handle_promise as Y, set_input_value as Z, add_render_callback as _, assign as a, outro_and_destroy_block as a0, set_custom_element_data as a1, update_keyed_each as a2, svg_element as b, set_svg_attributes as c, insert as d, detach as e, element as f, get_spread_update as g, append as h, init as i, create_slot as j, attr as k, toggle_class as l, transition_in as m, noop as n, onMount as o, transition_out as p, create_component as q, mount_component as r, safe_not_equal as s, tick as t, update_slot as u, destroy_component as v, empty as w, space as x, group_outros as y, check_outros as z };
