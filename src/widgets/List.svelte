@@ -155,7 +155,7 @@
   bind:this={viewport}
   bind:offsetHeight={viewport_height}
   on:scroll={handle_scroll}
-  style="height: {height};"
+  style="height: {height}; min-height: -webkit-fill-available;"
 >
   <svelte-virtual-list-contents
     bind:this={contents}
