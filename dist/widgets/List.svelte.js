@@ -139,6 +139,7 @@ function create_fragment(ctx) {
 			set_style(svelte_virtual_list_contents, "padding-bottom", /*bottom*/ ctx[6] + "px");
 			set_custom_element_data(svelte_virtual_list_contents, "class", "svelte-93y3o6");
 			set_style(svelte_virtual_list_viewport, "height", /*height*/ ctx[0]);
+			set_style(svelte_virtual_list_viewport, "min-height", "-webkit-fill-available");
 			set_custom_element_data(svelte_virtual_list_viewport, "class", "svelte-93y3o6");
 			add_render_callback(() => /*svelte_virtual_list_viewport_elementresize_handler*/ ctx[17].call(svelte_virtual_list_viewport));
 		},
