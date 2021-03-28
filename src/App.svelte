@@ -25,10 +25,10 @@
   }
 </style>
 
-<Router>
+<Router basepath='/website'>
   <Navigation>
     <div class='website-navigation-home'>
-      <Link to='/' class='website-navigation-link'>Home</Link>
+      <Link to='' class='website-navigation-link'>Home</Link>
     </div>
     <div class='website-navigation-pages'>
       <Link to='about' class='website-navigation-link'>About</Link> |
@@ -36,10 +36,10 @@
     </div>
   </Navigation>
   <Main>
-    <Route path='/' component={Home}></Route>
-    <Route path='/about' component={About}></Route>
-    <Route path='/blog' component={Blog}></Route>
-    <Route path='/blog/posts/:id' let:params>
+    <Route path='' component={Home}></Route>
+    <Route path='about' component={About}></Route>
+    <Route path='blog' component={Blog}></Route>
+    <Route path='blog/posts/:id' let:params>
       <Post id={params.id} />
     </Route>
     <Footer></Footer>
