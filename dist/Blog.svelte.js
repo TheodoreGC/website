@@ -179,7 +179,7 @@ function create_then_block(ctx) {
 	};
 }
 
-// (65:4) <List items={posts.filter(post => post.name.indexOf(searchTerm) !== -1)} bind:start bind:end let:item>
+// (65:4) <List items={posts.filter(post => post.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)} bind:start bind:end let:item>
 function create_default_slot(ctx) {
 	let listitem;
 	let current;
@@ -364,7 +364,7 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate(0, searchTerm);
 	}
 
-	const func = post => post.name.indexOf(searchTerm) !== -1;
+	const func = post => post.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
 
 	function list_start_binding(value) {
 		start = value;
