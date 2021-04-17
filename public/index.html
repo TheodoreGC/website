@@ -9,6 +9,15 @@
   <link rel="stylesheet" type="text/css" href="./index.css">
   <link rel="shorcut icon" type="image/x-icon" href="./favicon.ico">
   <title>Theodore Garson's website</title>
+  <script>
+    (function(){
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect != location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
 </head>
 
 <body>
