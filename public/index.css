@@ -2,15 +2,16 @@
 /* @import 'github-syntax-light/lib/github-light.css'; */
 @import 'github-syntax-dark/lib/github-dark.css';
 
-:root {
+/* :root {
   --main-bg-color: white;
   --main-color: #35495e;
   --secondary-color: #e6e6e6;
   --tertiary-color: #6a737d;
   --highlight-color: #25ae90;
-}
+} */
 
-:root[theme='dark'] {
+/* :root[theme='dark'] { */
+:root {
   --main-bg-color: #35495e;
   --main-color: white;
   --secondary-color: #1f2b39;
